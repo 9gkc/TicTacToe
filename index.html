@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Project</title>
+    <title>Accessible Tic Tac Toe</title>
     <link rel="stylesheet" href="main.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -12,8 +12,13 @@
       rel="stylesheet" />
   </head>
   <body>
-    <h1>Tic Tac Toe Game</h1>
-    <div class="board"></div>
+    <main>
+      <h1>Tic Tac Toe</h1>
+      <p id="game-status" class="game-status" role="status" aria-live="polite">Player X's turn.</p>
+      <div class="board" role="grid" aria-label="Tic Tac Toe board"></div>
+      <button type="button" id="reset-game" class="reset-game">Reset game</button>
+      <p class="help-text">Press Escape at any time to reset the game.</p>
+    </main>
     <script src="main.js"></script>
   </body>
 </html>

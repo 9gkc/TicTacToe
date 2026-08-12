@@ -21,7 +21,8 @@ This is a classic **Tic Tac Toe game** built using vanilla HTML, CSS, and JavaSc
 *   **Two-Player Mode**: Take turns with another player to place 'X's and 'O's.
 *   **Winning Condition**: Automatically detects when a player has won by getting three in a row, column, or diagonal.
 *   **Draw Detection**: Identifies when the game ends in a draw.
-*   **Reset Game**: Easily restart the game at any point.
+*   **Reset Game**: Easily restart the game at any point with the button or Escape key.
+*   **Accessible Status**: Live messages announce the current player, winner, or draw.
 *   **Responsive Design**: Enjoy the game on various screen sizes.
 
 ## How to Play ▶️
@@ -30,17 +31,17 @@ This is a classic **Tic Tac Toe game** built using vanilla HTML, CSS, and JavaSc
 2.  **Take Turns**: Players 'X' and 'O' will take turns clicking on the empty cells of the board.
 3.  **Win Condition**: The first player to get three of their marks in a row (horizontally, vertically, or diagonally) wins the game.
 4.  **Draw**: If all cells are filled and no player has won, the game is a draw.
-5.  **Reset**: Press the `Escape` key to reset the game at any time.
+5.  **Reset**: Press the Reset game button or `Escape` key to reset the game at any time.
 
 ## How to Run Locally 💻
 
 Follow these simple steps to get the Tic Tac Toe Game up and running on your local machine:
 
-1.  **Clone the Repository** (Once it's on GitHub):
+1.  **Clone the repository**:
     ```bash
-    git clone <repository-url>
-    cd tic-tac-toe-game
+    git clone https://github.com/9gkc/TicTacToe.git
+    cd TicTacToe
     ```
-2.  **Open `index.html`**: Navigate to the `tic-tac-toe-game` directory and open the `index.html` file in your preferred web browser. No server setup or build process is required!
+2.  **Open `index.html`** in a modern browser. No server setup or build process is required.
 
 Have fun playing! 🎉

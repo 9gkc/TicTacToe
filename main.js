@@ -1,77 +1,100 @@
 const board = document.querySelector(".board");
+const statusElement = document.querySelector("#game-status");
+const resetButton = document.querySelector("#reset-game");
+const winningCombos = [
+  [0, 1, 2],
+  [3, 4, 5],
+  [6, 7, 8],
+  [0, 3, 6],
+  [1, 4, 7],
+  [2, 5, 8],
+  [0, 4, 8],
+  [2, 4, 6],
+];
 let currentPlayer = "X";
-let cells = Array.from({ length: 9 });
+let cells = Array(9).fill(null);
+let gameOver = false;
 
-const handleClick = (e) => {
-  const cellIndex = e.target.dataset.index;
-  // console.log(cellIndex);
-  // Check If Cell Is Empty Or No
-  if (cells[cellIndex]) return;
-  updateCell(cellIndex, currentPlayer);
-  const winner = checkWinner();
-  console.log(winner);
-  if (winner || !cells.includes(undefined)) {
-    alert(winner ? `Player ${winner} Wins!` : "Its a Draw!");
-    resetGame();
-  }
-};
+function setStatus(message, tone = "info") {
+  if (!statusElement) return;
+  statusElement.textContent = message;
+  statusElement.dataset.tone = tone;
+}
 
-const updateCell = (index, value) => {
-  cells[index] = value; // Update Array Value
-  const cell = board.querySelector(`[data-index="${index}"]`);
-  cell.textContent = value;
-  cell.classList.add(value === "X" ? "player-x" : "player-o");
-  // Switch Player
-  currentPlayer = currentPlayer === "X" ? "O" : "X";
-  console.log(cells);
-};
-
-const checkWinner = () => {
-  const winningCombos = [
-    [0, 1, 2], // 0 = X, 1 = X, 2 = X = Winning Combo
-    [3, 4, 5],
-    [6, 7, 8],
-    [0, 3, 6],
-    [1, 4, 7],
-    [2, 5, 8],
-    [0, 4, 8],
-    [2, 4, 6],
-  ];
-
+function checkWinner() {
   for (const combo of winningCombos) {
     const [a, b, c] = combo;
-    // console.log(combo);
-    // console.log(a);
-    // console.log(b);
-    // console.log(c);
-    // X && X = X && X = X
     if (cells[a] && cells[a] === cells[b] && cells[a] === cells[c]) {
-      return cells[a];
+      return { player: cells[a], combo };
     }
   }
   return null;
-};
+}
 
-const resetGame = () => {
-  cells = Array.from({ length: 9 });
+function renderCell(index) {
+  const cell = board?.querySelector(`[data-index="${index}"]`);
+  if (!cell) return;
+  const value = cells[index];
+  cell.textContent = value || "";
+  cell.classList.toggle("player-x", value === "X");
+  cell.classList.toggle("player-o", value === "O");
+  cell.disabled = Boolean(value) || gameOver;
+  cell.setAttribute("aria-label", value ? `Cell ${index + 1}: ${value}` : `Cell ${index + 1}: empty`);
+}
+
+function renderBoard() {
+  cells.forEach((_, index) => renderCell(index));
+}
+
+function finishGame(winner) {
+  gameOver = true;
+  if (winner) {
+    winner.combo.forEach((index) => board?.querySelector(`[data-index="${index}"]`)?.classList.add("winning-cell"));
+    setStatus(`Player ${winner.player} wins! Press Reset game to play again.`, "success");
+  } else {
+    setStatus("It is a draw. Press Reset game to play again.", "info");
+  }
+  renderBoard();
+}
+
+function handleClick(event) {
+  const cell = event.currentTarget;
+  const index = Number(cell.dataset.index);
+  if (gameOver || cells[index]) return;
+  cells[index] = currentPlayer;
+  renderCell(index);
+  const winner = checkWinner();
+  if (winner || cells.every(Boolean)) {
+    finishGame(winner);
+    return;
+  }
+  currentPlayer = currentPlayer === "X" ? "O" : "X";
+  setStatus(`Player ${currentPlayer}'s turn.`);
+}
+
+function resetGame() {
+  cells = Array(9).fill(null);
   currentPlayer = "X";
-  board.querySelectorAll(".cell").forEach((cell) => {
-    cell.textContent = "";
-    cell.classList.remove("player-x", "player-o");
+  gameOver = false;
+  board?.querySelectorAll(".cell").forEach((cell) => cell.classList.remove("winning-cell"));
+  renderBoard();
+  setStatus("Player X's turn.", "success");
+}
+
+if (board) {
+  cells.forEach((_, index) => {
+    const cell = document.createElement("button");
+    cell.type = "button";
+    cell.className = "cell";
+    cell.dataset.index = String(index);
+    cell.setAttribute("aria-label", `Cell ${index + 1}: empty`);
+    cell.addEventListener("click", handleClick);
+    board.appendChild(cell);
   });
-};
+}
 
-document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape") resetGame();
+resetButton?.addEventListener("click", resetGame);
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") resetGame();
 });
-
-cells.forEach((cell, index) => {
-  cell = document.createElement("div");
-  cell.classList.add("cell");
-  cell.dataset.index = index;
-  // cell.textContent = index;
-  cell.addEventListener("click", handleClick);
-  board.appendChild(cell);
-});
-
-checkWinner();
+resetGame();

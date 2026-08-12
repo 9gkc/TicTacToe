@@ -1,42 +1,100 @@
 * {
-  -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
 body {
   font-family: "Rubik", sans-serif;
-  font-optical-sizing: auto;
   background-color: #eee;
   margin: 0;
+  color: #1f2937;
+}
+main {
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 0 20px 32px;
 }
 h1 {
   padding: 20px;
-  margin: 0 0 20px;
+  margin: 0 -20px 20px;
   background-color: white;
   text-align: center;
 }
+.game-status {
+  min-height: 1.5em;
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+.game-status[data-tone="success"] {
+  color: #166534;
+}
 .board {
   display: grid;
-  grid-template-columns: repeat(3, 100px);
-  grid-template-rows: repeat(3, 100px);
-  gap: 5px;
+  grid-template-columns: repeat(3, minmax(80px, 130px));
+  grid-template-rows: repeat(3, minmax(80px, 130px));
+  gap: 8px;
   justify-content: center;
+  margin: 24px auto;
 }
 .cell {
   background-color: white;
-  border: 1px solid #ccc;
+  border: 2px solid #ccc;
+  border-radius: 6px;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 50px;
+  font-size: clamp(2.5rem, 12vw, 4rem);
+  font-weight: bold;
   cursor: pointer;
-  transition: 0.3s;
+  transition: 0.2s;
 }
-.cell:hover {
+.cell:not(:disabled):hover {
   background-color: #f9f9f9;
+  border-color: #888;
+}
+.cell:focus-visible,
+.reset-game:focus-visible {
+  outline: 3px solid #1976d2;
+  outline-offset: 3px;
+}
+.cell:disabled {
+  cursor: not-allowed;
 }
 .player-x {
-  color: #f00;
+  color: #d32f2f;
 }
 .player-o {
-  color: #00f;
+  color: #1565c0;
+}
+.winning-cell {
+  background-color: #fff3cd;
+  border-color: #f59e0b;
+}
+.reset-game {
+  display: block;
+  width: 100%;
+  padding: 14px 20px;
+  border: none;
+  border-radius: 6px;
+  background-color: #1976d2;
+  color: white;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+.reset-game:hover {
+  background-color: #0d47a1;
+}
+.help-text {
+  text-align: center;
+  color: #666;
+}
+@media (max-width: 360px) {
+  main {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+  h1 {
+    margin-left: -12px;
+    margin-right: -12px;
+  }
 }

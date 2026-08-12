@@ -1,5 +1,7 @@
 # Tic Tac Toe Game 🎮
 
+> **Live demo:** [Open TicTacToe in your browser](https://9gkc.github.io/TicTacToe/)
+
 <div align="center">
   <img src="https://img.shields.io/github/last-commit/9gkc/TicTacToe?style=for-the-badge&label=Last%20Update&color=58A6FF" alt="Last Update">
   <img src="https://img.shields.io/github/stars/9gkc/TicTacToe?style=for-the-badge&color=58A6FF" alt="GitHub Stars">
